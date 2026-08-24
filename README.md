@@ -25,6 +25,8 @@ C) The default setting to retrieve data is:
 
 This is done to make sure Mammotion doesn't lock you out from your account for abusing the API. Tweak the values at your own risk!
 
+D) It only works with Mammotion LUBA and Mammotion YUKA lawnmowers. It was tested with Mammotion YUKA.
+
 **What you get - on BasicUI**
 <img width="1151" height="481" alt="image" src="https://github.com/user-attachments/assets/de4a0434-6e42-4e71-bf95-27cd62c8ccf2" />
 
