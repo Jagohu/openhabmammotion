@@ -1,4 +1,4 @@
-# openhabmammotion
+# openhabmammotion v0.1
 **Bash-HTTP solution for OpenHAB integration of Mammotion Yuka and Mammotion Luba lawnmowers**
  
 I know that many people can do a much more professional job than me on this, but after waiting for more than a year there are no working bindings that would allow my Mammotion Yuka to be controller from my OpenHAB. Because of that, I decided to write this set of scripts, which is a dirty solution as it uses bash, but it should work.
