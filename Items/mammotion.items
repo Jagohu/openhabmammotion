@@ -1,0 +1,21 @@
+Group 		gMammotion 						"Mammotion"
+String 		Mammotion_Active_Token_Expiry 	"Expiry Token in [JS(timeFormat.js):%s]" 					<refresh>		(gMammotion)
+String 		Mammotion_binding_status 		"Mammotion binding Status [MAP(networkConnection.map):%s]" 	<network>    	(gMammotion)
+
+// Operational parameters
+String    	Mower_Online_Status   			"Mower Connection status [MAP(networkConnection.map):%s]" 	<network>   	(gMammotion)
+String    	Mower_Firmware        			"Mower Firmware Version [%s]"  				 				<settings>  	(gMammotion)
+String    	Mower_Status          			"Mower Operational Status [%s]" 							<motion>    	(gMammotion)
+String   	Mower_ChargeStatus    			"Mower Charge Status [%s]" 									<battery>    	(gMammotion)
+Number    	Mower_Battery         			"Mower Battery Level [%d %%]"   							<battery>   	(gMammotion)
+DateTime  	Mower_updated					"Mower Last updated [%1$td.%1$tm.%1$tY %1$tT]" 				<refresh>		(gMammotion)
+
+// Network
+String    	Mower_Active_Network  			"Active Connection Type [MAP(networkType.map):%s]"			<network>   	(gMammotion)
+Number    	Mower_WiFi_RSSI       			"WiFi Signal Strength [%d dBm]" 							<signal>    	(gMammotion)
+Number    	Mower_Cellular_RSSI   			"Cellular Signal [%d dBm]"      							<signal>   		(gMammotion)
+
+String 	  	Mower_Control 					"Send Mower Command [%s]" 									<movecontrol> 	(gMammotion)
+String 	  	Mower_Task						"Mower Task [%s]" 											<movecontrol> 	(gMammotion)
+
+Switch		Mower_manual_refresh			"Mammotion Manual Refresh"													(gMammotion)
