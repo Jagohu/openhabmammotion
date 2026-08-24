@@ -1,0 +1,23 @@
+Text item=Mower_Status						labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]	valuecolor=[Mower_Status=="Returning"="green", Mower_Status=="Standby"="green", Mower_Status=="Paused"="orange", Mower_Status=="Abnormal"="red", Mower_Status=="Offline"="red", Mower_Status=="Updating"="blue", Mower_Status=="Mapping"="blue", Mower_Status=="Working"="green"]
+{
+	Text item=Mower_Battery					labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]	valuecolor=[Mower_ChargeStatus=="1"="green", Mower_Battery>80="green", Mower_Battery<80="yellow", Mower_Battery<50="orange" , Mower_Battery<20="red"]
+	Text item=Mower_ChargeStatus			labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"] 	valuecolor=[Mower_ChargeStatus=="1"="green", Mower_ChargeStatus!="1"="red"]
+	Text item=Mower_updated
+	
+	Text item=Mower_Status 					labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]	valuecolor=[Mower_Status=="Returning"="green", Mower_Status=="Standby"="green", Mower_Status=="Paused"="orange", Mower_Status=="Abnormal"="red", Mower_Status=="Offline"="red", Mower_Status=="Updating"="blue", Mower_Status=="Mapping"="blue", Mower_Status=="Working"="green"]
+	
+	Selection item=Mower_Control label="Mower Control" icon="lawnmower" mappings=[START="Start", STOP="Stop", PAUSE="Pause", RESUME="Resume", RETURN="Return", CANCEL_RETURN="Cancel Return"] labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"] valuecolor=[Mower_Control=="MISSING_TASK"="red",Mower_Task!=NULL="green"] visibility=[Mower_Status!="Mapping" AND Mower_Status!="Updating" AND Mower_Status!="Abnormal" AND Mower_Status!="Offline"]
+	Selection item=Mower_Task label="Mower Task" icon="lawnmower" mappings=[MOWFRONT="Mow front", MOWBACK="Mow back", MOWALL="Mow all"] visibility=[Mower_Status!="Mapping" AND Mower_Status!="Updating" AND Mower_Status!="Abnormal" AND Mower_Status!="Offline"] labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]
+	
+	Text item=Mower_Active_Network			labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]
+	Text item=Mower_WiFi_RSSI				labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]	valuecolor=[Mower_WiFi_RSSI>-50="green", Mower_WiFi_RSSI>-67="lime", Mower_WiFi_RSSI>-80="yellow", Mower_WiFi_RSSI>-90="orange", Mower_WiFi_RSSI<-90="red"]
+	Text item=Mower_Cellular_RSSI			labelcolor=[Mower_Online_Status==1="green",Mammotion_binding_status==1="green",Mower_Online_Status==0="red",Mammotion_binding_status==0="red"]	valuecolor=[Mower_Cellular_RSSI>-50="green", Mower_Cellular_RSSI>-67="lime", Mower_Cellular_RSSI>-80="yellow", Mower_Cellular_RSSI>-90="orange", Mower_Cellular_RSSI<-90="red"]
+	Text item=Mower_Firmware
+	
+	Text item=Mower_Online_Status			labelcolor=[Mammotion_binding_status==1="green",Mammotion_binding_status==0="red"] valuecolor=[Mower_Online_Status==1="green",Mower_Online_Status==0="red"]				
+	Text item=Mammotion_binding_status		labelcolor=[Mammotion_binding_status==1="green",Mammotion_binding_status==0="red"] valuecolor=[Mammotion_binding_status==1="green",Mammotion_binding_status==0="red"]				
+	Text item=Mammotion_Active_Token_Expiry
+	Switch item=Mower_manual_refresh
+	
+	Group item=gMammotion					label="Mammotion Group"
+}
