@@ -1,0 +1,81 @@
+var Number refreshcounter=0
+
+rule "Mammotion refresh counter reset"
+when 
+	Time cron "0 0 0 * MAR-SEP ?"	
+then   
+   refreshcounter=0
+   logInfo("MAMMOTION.RULES","Mammotion refreshCounter reset: " + refreshcounter)
+end
+
+rule "Mammotion data update"
+when 
+	Time cron "0 0/5 8-22 * MAR-SEP ?"
+	or Time cron "0 0/15 22-8 * MAR-SEP ?"
+	or Item Mower_manual_refresh received command ON
+then
+   executeCommandLine(Duration.ofSeconds(30),"/etc/openhab/scripts/mammotion_datarefresh.sh")
+   refreshcounter=refreshcounter+1
+   logInfo("MAMMOTION.RULES","Mammotion refreshCounter today: " + refreshcounter)
+   createTimer(now.plusSeconds(5)) [|
+		Mower_manual_refresh.sendCommand(OFF)
+   ]
+end
+
+rule "Mammotion Mower Start Task"
+when 
+    Item Mower_Control received command
+then
+    // 1. Capture the exact command sent by the UI safely
+    val String actionCmd = receivedCommand.toString
+    logInfo("MAMMOTION.RULES", "Command received: " + actionCmd)
+    
+    // 2. Safely capture the task state
+    var String currentTask = "NONE"
+    if (Mower_Task.state != NULL && Mower_Task.state != UNDEF) 
+	{
+        currentTask = Mower_Task.state.toString
+    }
+    
+    if (actionCmd == "START") 
+	{
+        if (currentTask == "NONE") 
+		{
+            logInfo("MAMMOTION.RULES", "Command FAIL - MISSING_TASK")
+            Mower_Control.postUpdate("MISSING_TASK")
+        }
+        else {
+            logInfo("MAMMOTION.RULES", "Command START. Task: " + currentTask)
+            
+            // Capture the script output into 'result'
+            var String result = executeCommandLine(Duration.ofSeconds(30), "/etc/openhab/scripts/mammotion_control.sh", actionCmd, currentTask)
+            logInfo("MAMMOTION.RULES", "Command result: " + result)
+			refreshcounter=refreshcounter+1								// the refresh counts as one at least - maximum two if we need a new token
+        }
+    }
+    else 
+	{
+        logInfo("MAMMOTION.RULES", "Sending alternative command: " + actionCmd)
+        
+        // Pass the action command (STOP, PAUSE, etc.) to your script
+        var String result = executeCommandLine(Duration.ofSeconds(30), "/etc/openhab/scripts/mammotion_control.sh", actionCmd)
+        logInfo("MAMMOTION.RULES", "Command result: " + result)
+		refreshcounter=refreshcounter+1									// the refresh counts as one at least - maximum two if we need a new token
+		if (actionCmd == "RETURN") 
+		{
+			createTimer(now.plusSeconds(60)) [|
+				refreshcounter=refreshcounter+1
+				logInfo("MAMMOTION.RULES","RETURN command + 60 sec - status refresh" )
+				executeCommandLine(Duration.ofSeconds(30),"/etc/openhab/scripts/mammotion_datarefresh.sh")
+			]
+		}
+    }
+	
+end
+
+rule "Mammotion data updated"
+when Item Mower_Online_Status received command 1
+then
+	Mower_updated.postUpdate(new DateTimeType())
+	refreshcounter=refreshcounter+1							// it receives this command every time also when a command is ran
+end
